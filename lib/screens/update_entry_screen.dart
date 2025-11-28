@@ -3,6 +3,9 @@ import '../models/health_entry.dart';
 import '../db/database_helper.dart';
 
 class UpdateEntryScreen extends StatefulWidget {
+  const UpdateEntryScreen({super.key, required this.healthEntry});
+
+  final HealthEntry healthEntry;
   @override
   _UpdateEntryScreenState createState() => _UpdateEntryScreenState();
 }
@@ -14,9 +17,23 @@ class _UpdateEntryScreenState extends State<UpdateEntryScreen> {
   final waterController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    stepsController.text = widget.healthEntry.steps.toString();
+    caloriesController.text = widget.healthEntry.calories.toString();
+    waterController.text = widget.healthEntry.water.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Health Entry')),
+      appBar: AppBar(title: Text('Update Health Entry'),
+      leading: BackButton(
+        onPressed: () => {
+          Navigator.pop(context,true)
+        },
+      ),),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -47,15 +64,23 @@ class _UpdateEntryScreenState extends State<UpdateEntryScreen> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     final entry = HealthEntry(
+                      id: widget.healthEntry.id,
                       date: DateTime.now().toString().substring(0, 10),
                       steps: int.parse(stepsController.text),
                       calories: int.parse(caloriesController.text),
                       water: int.parse(waterController.text),
                     );
-                    await DatabaseHelper.instance.insertEntry(entry);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Entry Saved!')),
-                    );
+                    int status = await DatabaseHelper.instance.updateEntry(entry);
+                    if (status == 1) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Entry Saved!')),
+                      );
+                      Navigator.pop(context,true);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Entry Not Saved!')),
+                      );
+                    }
                     stepsController.clear();
                     caloriesController.clear();
                     waterController.clear();
