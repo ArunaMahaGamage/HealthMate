@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('💚 HealthMate Dashboard 🌿')),
+      appBar: AppBar(title: Center(child: const Text('💚 HealthMate Dashboard 🌿')),),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
