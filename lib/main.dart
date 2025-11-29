@@ -3,9 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/records_screen.dart';
 import 'screens/add_entry_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(HealthMateApp());
+  runApp(ProviderScope(child: HealthMateApp()));
 }
 
 class HealthMateApp extends StatelessWidget {

@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.4.4 # Use the latest version
+  riverpod_annotation: ^2.3.0 # Use the latest version
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -42,6 +44,8 @@ dev_dependencies:
   path: ^1.9.0
   path_provider: ^2.1.2
   google_fonts: ^6.2.1
+  build_runner: ^2.4.6 # Use the latest version
+  riverpod_generator: ^2.3.0 # Use the latest version
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -62,9 +66,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+     - assets/images/footstep.png
+     - assets/images/calories.png
+     - assets/images/glassofwater.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

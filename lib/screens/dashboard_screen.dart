@@ -43,9 +43,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SummaryCard(title: 'Steps Walked', value: '$totalSteps'),
-            SummaryCard(title: 'Calories Burned', value: '$totalCalories kcal'),
-            SummaryCard(title: 'Water Intake', value: '${(totalWater / 1000).toStringAsFixed(1)} L'),
+            SummaryCard(title: 'Steps Walked', value: '$totalSteps', image: 'assets/images/footstep.png',),
+            SummaryCard(title: 'Calories Burned', value: '$totalCalories kcal', image: 'assets/images/calories.png',),
+            SummaryCard(title: 'Water Intake', value: '${(totalWater / 1000).toStringAsFixed(1)} L', image: 'assets/images/glassofwater.png',),
           ],
         ),
       ),
@@ -56,16 +56,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
 class SummaryCard extends StatelessWidget {
   final String title;
   final String value;
+  final String image;
 
-  const SummaryCard({required this.title, required this.value});
+  const SummaryCard({required this.title, required this.value, required this.image});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: ListTile(
-        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-        trailing: Text(value, style: TextStyle(fontSize: 18, color: Colors.green)),
+      child: Column(
+        children: [
+          Image.asset(image,width: 100.0, height: 100.0, fit: BoxFit.cover,),
+          ListTile(
+            title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+            trailing: Text(value, style: TextStyle(fontSize: 18, color: Colors.green)),
+          ),
+        ],
       ),
     );
   }
