@@ -25,19 +25,43 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
             children: [
               TextFormField(
                 controller: stepsController,
-                decoration: InputDecoration(labelText: 'Steps Walked'),
+                decoration: InputDecoration(labelText: 'Steps Walked', prefixIcon: Padding(
+                  padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+                  child: Image.asset(
+                    'assets/images/footstep.png', // Replace with your image path
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.contain, // Adjust fit as needed
+                  ),
+                ),),
                 keyboardType: TextInputType.number,
                 validator: (v) => v!.isEmpty ? 'Enter steps' : null,
               ),
               TextFormField(
                 controller: caloriesController,
-                decoration: InputDecoration(labelText: 'Calories Burned'),
+                decoration: InputDecoration(labelText: 'Calories Burned', prefixIcon: Padding(
+                  padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+                  child: Image.asset(
+                    'assets/images/calories.png', // Replace with your image path
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.contain, // Adjust fit as needed
+                  ),
+                ),),
                 keyboardType: TextInputType.number,
                 validator: (v) => v!.isEmpty ? 'Enter calories' : null,
               ),
               TextFormField(
                 controller: waterController,
-                decoration: InputDecoration(labelText: 'Water Intake (ml)'),
+                decoration: InputDecoration(labelText: 'Water Intake (ml)', prefixIcon: Padding(
+                  padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+                  child: Image.asset(
+                    'assets/images/glassofwater.png', // Replace with your image path
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.contain, // Adjust fit as needed
+                  ),
+                ),),
                 keyboardType: TextInputType.number,
                 validator: (v) => v!.isEmpty ? 'Enter water intake' : null,
               ),
