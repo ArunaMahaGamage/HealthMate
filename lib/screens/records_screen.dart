@@ -36,20 +36,27 @@ class _RecordsScreenState extends State<RecordsScreen> {
             children: [
               SearchAnchor(
                 searchController: searchController, builder: (BuildContext context, SearchController controller) {
-                  return SearchBar(
-                    controller: controller,
-                    padding: const MaterialStatePropertyAll<EdgeInsets>(
-                        EdgeInsets.symmetric(horizontal: 16.0)),
-                    leading: const Icon(Icons.search),
-                    //trailing: const [Icon(Icons.mic)],
-                    hintText: 'Search',
-                    // When the user taps the bar, open the full view
-                    onTap: () {
-                      controller.openView();
-                    },
-                    onChanged: (_) {
-                      // Optional: filter results as user types within the initial bar
-                    },
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SearchBar(
+                      controller: controller,
+                      padding: const MaterialStatePropertyAll<EdgeInsets>(
+                          EdgeInsets.symmetric(horizontal: 16.0)),
+                      leading: const Icon(Icons.search),
+                      //trailing: const [Icon(Icons.mic)],
+                      hintText: 'Search',
+                      constraints: const BoxConstraints(
+                        minHeight: 40.0, // Set your desired minimum height
+                        maxHeight: 60.0, // Set your desired maximum height
+                      ),
+                      // When the user taps the bar, open the full view
+                      onTap: () {
+                        controller.openView();
+                      },
+                      onChanged: (_) {
+                        // Optional: filter results as user types within the initial bar
+                      },
+                    ),
                   );
               }, suggestionsBuilder: (BuildContext context, SearchController controller) {
                 final String query = controller.text.toLowerCase();
@@ -101,6 +108,9 @@ class _RecordsScreenState extends State<RecordsScreen> {
                           onPressed: () async {
                             await DatabaseHelper.instance.deleteEntry(item.id!);
                             _loadEntries();
+                            setState(() {
+
+                            });
                           },
                         ),
                       ],
@@ -109,6 +119,18 @@ class _RecordsScreenState extends State<RecordsScreen> {
                 }).toList();
               },
               ),
+              SizedBox(height: 20.0),
+              RichText(text: const TextSpan(
+                text: 'Your Records',
+                style: TextStyle(
+                  // Apply specific styles here
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  letterSpacing: 1.2,
+                ),
+              )),
+              SizedBox(height: 20.0),
               Expanded(
                 child: ListView.builder(
                         itemCount: entries.length,
