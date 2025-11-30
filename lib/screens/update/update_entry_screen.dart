@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/health_entry.dart';
-import '../db/database_helper.dart';
+import '../../models/health_entry.dart';
+import '../../db/database_helper.dart';
 
 class UpdateEntryScreen extends StatefulWidget {
   const UpdateEntryScreen({super.key, required this.healthEntry});

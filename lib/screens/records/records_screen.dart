@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../db/database_helper.dart';
-import '../models/health_entry.dart';
-import '../screens/update_entry_screen.dart';
+import '../../db/database_helper.dart';
+import '../../models/health_entry.dart';
+import '../update/update_entry_screen.dart';
 
 class RecordsScreen extends StatefulWidget {
   @override

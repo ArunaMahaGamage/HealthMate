@@ -23,7 +23,7 @@ class DatabaseHelper {
 
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE health_entries (
+      CREATE TABLE health_records (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
         steps INTEGER,
@@ -35,19 +35,19 @@ class DatabaseHelper {
 
   Future<int> insertEntry(HealthEntry entry) async {
     final db = await instance.database;
-    return await db.insert('health_entries', entry.toMap());
+    return await db.insert('health_records', entry.toMap());
   }
 
   Future<List<HealthEntry>> getAllEntries() async {
     final db = await instance.database;
-    final result = await db.query('health_entries', orderBy: 'date DESC');
+    final result = await db.query('health_records', orderBy: 'date DESC');
     return result.map((e) => HealthEntry.fromMap(e)).toList();
   }
 
   Future<int> updateEntry(HealthEntry entry) async {
     final db = await instance.database;
     return await db.update(
-      'health_entries',
+      'health_records',
       entry.toMap(),
       where: 'id = ?',
       whereArgs: [entry.id],
@@ -56,6 +56,6 @@ class DatabaseHelper {
 
   Future<int> deleteEntry(int id) async {
     final db = await instance.database;
-    return await db.delete('health_entries', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('health_records', where: 'id = ?', whereArgs: [id]);
   }
 }

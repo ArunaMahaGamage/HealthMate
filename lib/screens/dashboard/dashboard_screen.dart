@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../db/database_helper.dart';
-import '../models/health_entry.dart';
+import '../../db/database_helper.dart';
+import '../../models/health_entry.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
