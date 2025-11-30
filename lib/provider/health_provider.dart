@@ -35,10 +35,12 @@ class HealthEntryNotifier extends StateNotifier<List<HealthEntry>> {
     state = [entryWithId, ...state]; // Add new entry to the top of the list
   }
 
-  Future<void> updateEntry(HealthEntry entry) async {
-    await dbHelper.updateEntry(entry);
+  Future<int> updateEntry(HealthEntry entry) async {
+    int status =  await dbHelper.updateEntry(entry);
     // Update local state by mapping the list
     state = state.map((e) => e.id == entry.id ? entry : e).toList();
+
+    return status;
   }
 
   Future<void> deleteEntry(int id) async {
