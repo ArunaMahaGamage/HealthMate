@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:health_mate/logger/logger_observer.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/records/records_screen.dart';
 import 'screens/add/add_entry_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(ProviderScope(child: HealthMateApp()));
+  runApp(
+      ProviderScope(
+          observers: [LoggerObserver()],
+          child: HealthMateApp()
+      )
+  );
 }
 
 class HealthMateApp extends StatelessWidget {
