@@ -23,6 +23,90 @@ class _RecordsScreenState extends State<RecordsScreen> {
     setState(() {});
   }
 
+  // Function to show the AlertDialog
+  Future<bool?> _showDeleteConfirmationDialog(BuildContext context) async {
+    return showDialog<bool?>(
+      context: context,
+      barrierDismissible: false, // User must tap a button to close the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Do you need to delete this item?'),
+                Text('This action cannot be undone.', style: TextStyle(
+                  fontSize: 10.0, // Sets the font size to 24 logical pixels
+                ),),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            // --- NO Button ---
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                // This closes the dialog and passes 'false' (or null) back to showDialog
+                Navigator.of(context).pop(false);
+              },
+            ),
+            // --- YES Button ---
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                // This closes the dialog and passes 'true' back to showDialog
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<bool?> _showUpdateConfirmationDialog(BuildContext context) async {
+    return showDialog<bool?>(
+      context: context,
+      barrierDismissible: false, // User must tap a button to close the dialog
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Update'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Do you need to update this item?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            // --- NO Button ---
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                // This closes the dialog and passes 'false' (or null) back to showDialog
+                Navigator.of(context).pop(false);
+              },
+            ),
+            // --- YES Button ---
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                // This closes the dialog and passes 'true' back to showDialog
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showActionFeedback(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -144,19 +228,31 @@ class _RecordsScreenState extends State<RecordsScreen> {
                       IconButton(
                         icon: Icon(Icons.update, color: Colors.green),
                         onPressed: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) => UpdateEntryScreen(healthEntry: e,),
-                            ),
-                          );
+                          final bool? update = await _showUpdateConfirmationDialog(context);
+                          if (update == true) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (context) =>
+                                    UpdateEntryScreen(healthEntry: e,),
+                              ),
+                            );
+                          } else {
+                          }
                         },
                       ),
                       IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () async {
-                          await DatabaseHelper.instance.deleteEntry(e.id!);
-                          _loadEntries();
+                          final bool? delete = await _showDeleteConfirmationDialog(context);
+
+                          if (delete == true) {
+                            await DatabaseHelper.instance.deleteEntry(e.id!);
+                            _loadEntries();
+                            _showActionFeedback(context, 'Item deleted successfully!');
+                          } else {
+                            _showActionFeedback(context, 'Deletion cancelled.');
+                          }
                         },
                       ),
                     ],
