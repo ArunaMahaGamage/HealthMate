@@ -21,7 +21,16 @@ class DashboardScreen extends ConsumerWidget {
     totalWater = entries.fold(0, (sum, e) => sum + e.water);
 
     return Scaffold(
-      appBar: AppBar(title: Center(child: const Text('💚 HealthMate Dashboard 🌿')),),
+      appBar: AppBar(title: Center(child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.monitor_heart, size: 25.0, color: Colors.purple),
+          SizedBox(width: 8),
+          const Text('HealthMate Dashboard'),
+          SizedBox(width: 8),
+          Icon(Icons.water_drop_outlined, size: 25.0, color: Colors.green),
+        ],
+      )),),
       body: loaderStatus.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Error loading data: $err')),
