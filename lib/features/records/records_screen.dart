@@ -1,27 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../db/database_helper.dart';
 import '../../models/health_entry.dart';
 import '../update/update_entry_screen.dart';
 
-class RecordsScreen extends StatefulWidget {
-  @override
-  _RecordsScreenState createState() => _RecordsScreenState();
-}
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../provider/health_provider.dart';
 
-class _RecordsScreenState extends State<RecordsScreen> {
-  List<HealthEntry> entries = [];
+class RecordsScreen extends ConsumerWidget {
+  RecordsScreen({super.key});
   final SearchController searchController = SearchController();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadEntries();
-  }
-
-  Future<void> _loadEntries() async {
-    entries = await DatabaseHelper.instance.getAllEntries();
-    setState(() {});
-  }
 
   // Function to show the AlertDialog
   Future<bool?> _showDeleteConfirmationDialog(BuildContext context) async {
@@ -108,10 +94,9 @@ class _RecordsScreenState extends State<RecordsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    setState(() {
-      _loadEntries();
-    });
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<void> loaderStatus = ref.watch(initialEntriesLoaderProvider);
+    final List<HealthEntry> entries = ref.watch(healthEntriesProvider);
     return Scaffold(
       appBar: AppBar(title: Text('Health Records')),
       body: entries.isEmpty
@@ -190,11 +175,12 @@ class _RecordsScreenState extends State<RecordsScreen> {
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
                           onPressed: () async {
-                            await DatabaseHelper.instance.deleteEntry(item.id!);
-                            _loadEntries();
-                            setState(() {
-
-                            });
+                            try {
+                              ref.read(healthEntriesProvider.notifier).deleteEntry(item.id!);
+                              _showActionFeedback(context, 'Item deleted successfully!');
+                            } catch (e) {
+                              _showActionFeedback(context, 'Item deleted Unsuccessful.');
+                            }
                           },
                         ),
                       ],
@@ -247,9 +233,12 @@ class _RecordsScreenState extends State<RecordsScreen> {
                           final bool? delete = await _showDeleteConfirmationDialog(context);
 
                           if (delete == true) {
-                            await DatabaseHelper.instance.deleteEntry(e.id!);
-                            _loadEntries();
-                            _showActionFeedback(context, 'Item deleted successfully!');
+                            try {
+                              ref.read(healthEntriesProvider.notifier).deleteEntry(e.id!);
+                              _showActionFeedback(context, 'Item deleted successfully!');
+                            } catch (e) {
+                              _showActionFeedback(context, 'Item deleted Unsuccessful.');
+                            }
                           } else {
                             _showActionFeedback(context, 'Deletion cancelled.');
                           }
