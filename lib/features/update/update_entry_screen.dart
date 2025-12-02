@@ -54,7 +54,15 @@ class UpdateEntryScreen extends ConsumerWidget {
                         ),
                       ),),
                       keyboardType: TextInputType.number,
-                      validator: (v) => v!.isEmpty ? 'Enter steps' : null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter steps';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Please enter only digits.';
+                        }
+                        return null; // Return null if valid
+                      },
                     ),
                     TextFormField(
                       controller: caloriesController,
@@ -71,7 +79,15 @@ class UpdateEntryScreen extends ConsumerWidget {
                         ),
                       ),),
                       keyboardType: TextInputType.number,
-                      validator: (v) => v!.isEmpty ? 'Enter calories' : null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter calories';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Please enter only digits.';
+                        }
+                        return null; // Return null if valid
+                      },
                     ),
                     TextFormField(
                       controller: waterController,
@@ -88,10 +104,15 @@ class UpdateEntryScreen extends ConsumerWidget {
                         ),
                       ),),
                       keyboardType: TextInputType.number,
-                      validator: (v) =>
-                      v!.isEmpty
-                          ? 'Enter water intake'
-                          : null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter water intake';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Please enter only digits.';
+                        }
+                        return null; // Return null if valid
+                      },
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
